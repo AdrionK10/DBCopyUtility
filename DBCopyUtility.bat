@@ -190,6 +190,7 @@ echo **************** 12 = .TXT                                   **************
 echo **************** 13 = .BAK                                   ******************
 echo **************** 14 =  Sync Entire DB (Pulls All File Types) ******************
 echo *******************************************************************************
+echo                      SELECT 0 FOR TEST EXCLUSION OPTION
 echo *******************************************************************************
 echo ** Current Directory (%DL%)       **************************** 
 echo ** FOLDER SPACE: %destinationFolder%  **************************** 
@@ -211,6 +212,7 @@ if /I %INPUT% == 11 GOTO 11
 if /I %INPUT% == 12 GOTO 12
 if /I %INPUT% == 13 GOTO 13
 if /I %INPUT% == 14 GOTO CONF
+if /I %INPUT% == 0 GOTO ENTIRE
 goto INVALID
 
 :REP
@@ -237,6 +239,7 @@ echo -**** 5. Exit                               :  Exit DBCopyUtility
 echo -**************************************************---------------
 echo -**Current Destination Path (%destinationFolder%)
 echo -**********************************************************************
+echo              SELECT 0 FOR TEST EXCLUSION OPTION
 echo ******************************************************************
 echo *************************************************************
 echo ********************************************************
@@ -272,6 +275,7 @@ if /I %INPUT% == 11 GOTO 11
 if /I %INPUT% == 12 GOTO 12
 if /I %INPUT% == 13 GOTO 13
 if /I %INPUT% == 14 GOTO 1
+if /I %INPUT% == 0 GOTO ENTIRE
 goto INVALID
 
 :1
@@ -415,6 +419,14 @@ set "lastSEL=FULL SYNC"
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 robocopy %dirID%  %destinationFolder% /MIR
 GOTO REP
+
+
+
+:ENTIRE
+robocopy %dirID%  %thriveFolder% /xf *.txt *.exe *.bmp *.pdf *.xls *.tmp *.dll *.dat *.ini
+robocopy %dirID2% %sfFolder% /xf *.txt *.exe *.bmp *.pdf *.xls *.tmp *.dll *.dat *.ini
+goto REP
+
 
 :INVALID
 cls
