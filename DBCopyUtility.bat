@@ -16,18 +16,18 @@ IF not defined newFolderPerExtension set newFolderPerExtension = n
 :NOL
 SET currentCkpt = NOL
 echo **********************************************************
-echo ** Welcome to DB Copy Utility*****************************
-echo ** Most Directories are Currently Defined ****************
-echo ** Edit .bat file if you wish to modify Directories ******
+echo ** Welcome to DB Copy Utility ****************************
+echo ** Sources are Currently Defined *************************
+echo ** Edit .bat file if you wish to modify Sources **********
 echo **********************************************************
 echo ---------------------------------------------------------------
 echo ---------------------------------------------------------------
-echo -------------------Current Set Directories---------------------
-echo -------------------------------------------------------
-echo ------------ LOCAL %dirIDLocal%
+echo ------------------- Source Options ----------------------------
+echo ---------------------------------------------------------------
+echo ------(L)----- LOCAL %dirIDLocal%
 echo ------------       %dirIDLocal2%
-echo ------------                               
-echo ------------ NETWORK %dirIDNetwork%
+echo ---------------------------------------------------------------                               
+echo ------(N)---- NETWORK %dirIDNetwork%
 echo ------------         %dirIDNetwork2%
 echo ---------------------------------------------------------------
 echo ---------------------------------------------------------------
@@ -95,7 +95,7 @@ if /I %newFolderPerExtension% == n mkdir "%destinationFolder%\Thrive"
 if /I %newFolderPerExtension% == n mkdir "%destinationFolder%\Thrive\sfdata"
 set "thriveFolder=%destinationFolder%\Thrive"
 set "sfFolder=%destinationFolder%\Thrive\sfdata"
-GOTO 0
+GOTO SN
 
 :CFOL
 SET currentCkpt = CFOL
@@ -111,7 +111,7 @@ if /I %newFolderPerExtension% == n mkdir "%destinationFolder%\Thrive"
 if /I %newFolderPerExtension% == n mkdir "%destinationFolder%\Thrive\sfdata"
 set "thriveFolder=%destinationFolder%\Thrive"
 set "sfFolder=%destinationFolder%\Thrive\sfdata"
-GOTO 0
+GOTO SN
 
 :BEG
 cls
@@ -150,14 +150,14 @@ echo *****                    Type (Y) to Sync Directory        Type (N) to navi
 echo *****                                                                                                    ***
 echo ************************************************************************************************************
 set /P CON="Sync Directory? Y/N: "
-IF /I %CON% == y goto 14
+IF /I %CON% == y goto ME
 IF /I %CON% == n goto 0
 goto INVALID
 
 :nfpx
 cls
 SET currentCkpt = nfpx
-echo ** Current Directory (%DL%)***********************
+echo ** Current Source (%DL%)***********************
 echo *******************************************************
 echo ** Organize Extensions into their own folders? (Y/N) **
 echo *******************************************************
@@ -167,15 +167,46 @@ echo *******************************************************
 set /p newFolderPerExtension="Oganize Extensions into Folders? Y/N: "
 goto 0
 
+
+:SN
+cls
+echo ***************************************************
+echo ***************************************************
+echo ***** Current Source (%DL%)       
+echo ***** -------Sources----------------
+echo ***** %dirID%                       
+echo ***** %dirID2%                      
+echo *****                               
+echo *****-------Destination ------------                                          
+echo ***** %destinationFolder%       
+echo ***************************************************
+echo ***************************************************
+echo ***************** FULL SYNC NOW? (Y/N) ************
+echo ***************************************************
+echo ***************************************************
+set /P PICK="(Y/N): "
+
+if /I %PICK% == y GOTO ME
+if /I %PICK% == n GOTO 0
+
+
+goto MENU
+
+
+
+
+
+
 :0 
 cls
 SET currentCkpt = 0
 echo %thriveFolder%
 echo %sfFolder%
 echo *******************************************************************************
-echo ************ What File extension would you like to copy? **********************
+echo ***************************** Choose Sync Type ********************************
 echo *******************************************************************************
-echo ****************  1 =  All *Below* Defined File Types        ******************
+echo ****************  0 =  Sync With Source                      ******************
+echo ****************  1 =  Sync Only *Below* Defined File Types  ******************
 echo ****************  2 = .CDX                                   ******************
 echo ****************  3 = .DSN (Data Source Name)                ******************
 echo ****************  4 = .DBC                                   ******************
@@ -188,15 +219,13 @@ echo **************** 10 = .PRG                                   **************
 echo **************** 11 =  Microsoft Access Files                ******************
 echo **************** 12 = .TXT                                   ******************
 echo **************** 13 = .BAK                                   ******************
-echo **************** 14 =  Sync Entire DB (Pulls All File Types) ******************
 echo *******************************************************************************
-echo                      SELECT 0 FOR TEST EXCLUSION OPTION
 echo *******************************************************************************
-echo ** Current Directory (%DL%)       **************************** 
-echo ** FOLDER SPACE: %destinationFolder%  **************************** 
-echo ****************************************************************  
-echo **************************************************************** 
-set /P INPUT="Extension Selection #: "                                   
+echo ** Current Source (%DL%)       
+echo ** FOLDER SPACE: %destinationFolder%  
+echo ******************************************************************************* 
+echo *******************************************************************************
+set /P INPUT="Selection #: "                                   
 
 if /I %INPUT% == 1 GOTO 1
 if /I %INPUT% == 2 GOTO 2
@@ -211,14 +240,13 @@ if /I %INPUT% == 10 GOTO 10
 if /I %INPUT% == 11 GOTO 11
 if /I %INPUT% == 12 GOTO 12
 if /I %INPUT% == 13 GOTO 13
-if /I %INPUT% == 14 GOTO CONF
-if /I %INPUT% == 0 GOTO ENTIRE
+if /I %INPUT% == 0 GOTO ME
 goto INVALID
 
 :REP
 echo ***************************************************
 echo ***************************************************
-echo ***************** COPY COMPLETE *******************
+echo ******************** COMPLETE *********************
 echo ***************************************************
 echo ***************************************************
 goto MENU
@@ -231,15 +259,14 @@ echo *************************************************************
 echo ******************************************************************
 echo -----------------------------------------------------------------------
 echo -***************** MENU ********************----------------------
-echo -**** 1. Quick Sync *Last Selection*        :  Last Sync (%lastSEL%) at (%time%) on (%date%)     
-echo -**** 2. Extension Selection                :  Change the Extension to Copy  
+echo -**** 1. Sync *Last Selection*              :  Last Sync (%lastSEL%) at (%time%) on (%date%)     
+echo -**** 2. Change Sync Type                   :  Change the Extension to Copy  
 echo -**** 3. Folder Creation                    :  Change / Customize Destination Path  
-echo -**** 4. Change Directory Location (N/L)    :  Current Directory (%DL%)  
+echo -**** 4. Change Source Location (N/L)       :  Current Source (%DL%)  
 echo -**** 5. Exit                               :  Exit DBCopyUtility     
 echo -**************************************************---------------
 echo -**Current Destination Path (%destinationFolder%)
 echo -**********************************************************************
-echo              SELECT 0 FOR TEST EXCLUSION OPTION
 echo ******************************************************************
 echo *************************************************************
 echo ********************************************************
@@ -261,6 +288,7 @@ goto INVALID
 
 
 :QP
+if /I %INPUT% == 0 GOTO ME
 if /I %INPUT% == 1 GOTO CONF
 if /I %INPUT% == 2 GOTO 2
 if /I %INPUT% == 3 GOTO 3
@@ -275,7 +303,7 @@ if /I %INPUT% == 11 GOTO 11
 if /I %INPUT% == 12 GOTO 12
 if /I %INPUT% == 13 GOTO 13
 if /I %INPUT% == 14 GOTO 1
-if /I %INPUT% == 0 GOTO ENTIRE
+
 goto INVALID
 
 :1
@@ -427,6 +455,12 @@ robocopy %dirID%  %thriveFolder% /xf *.txt *.exe *.bmp *.pdf *.xls *.tmp *.dll *
 robocopy %dirID2% %sfFolder% /xf *.txt *.exe *.bmp *.pdf *.xls *.tmp *.dll *.dat *.ini
 goto REP
 
+:ME
+set "lastSEL=Full Sync"
+set "INPUT=0"
+robocopy %dirID%  %destinationFolder% /MIR /xf *.txt *.exe *.bmp *.pdf *.xls *.tmp *.dll *.dat *.ini
+goto REP
+
 
 :INVALID
 cls
@@ -440,7 +474,8 @@ echo ===========================================================================
 goto INIT
 
 :All
-set "lastSEL=ALL"
+set "lastSEL=All Defined"
+set "newFolderPerExtension=y"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.cdx"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.cdx"
 robocopy %dirID% %thriveFolder% *.cdx
@@ -501,4 +536,5 @@ if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\D
 robocopy %dirID%  %thriveFolder% *.bak
 robocopy %dirID2% %sfFolder% *. bak
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
+set "newFolderPerExtension=n"
 Goto REP
