@@ -89,7 +89,12 @@ if not defined destinationFolder set "destinationFolder= C:\Users\%username%\Des
 echo **********************************************************************************
 echo ** Default Folder Created: %destinationFolder% ***********************************
 echo **********************************************************************************
-set "newFolderPerExtension=y"
+set "newFolderPerExtension=n"
+
+if /I %newFolderPerExtension% == n mkdir "%destinationFolder%\Thrive"
+if /I %newFolderPerExtension% == n mkdir "%destinationFolder%\Thrive\sfdata"
+set "thriveFolder=%destinationFolder%\Thrive"
+set "sfFolder=%destinationFolder%\Thrive\sfdata"
 GOTO 0
 
 :CFOL
@@ -165,6 +170,8 @@ goto 0
 :0 
 cls
 SET currentCkpt = 0
+echo %thriveFolder%
+echo %sfFolder%
 echo *******************************************************************************
 echo ************ What File extension would you like to copy? **********************
 echo *******************************************************************************
