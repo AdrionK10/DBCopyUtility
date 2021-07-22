@@ -217,7 +217,7 @@ echo *************************************************************
 echo ******************************************************************
 echo -----------------------------------------------------------------------
 echo -***************** MENU ********************----------------------
-echo -**** 1. Quick Sync Last Selection          : (%lastSEL%) Last Sync at (%time%) on (%date%)     
+echo -**** 1. Quick Sync *Last Selection*          :  Last Sync (%lastSEL%) at (%time%) on (%date%)     
 echo -**** 2. Extension Selection                :  Change the Extension to Copy  
 echo -**** 3. Folder Creation                    :  Change / Customize Destination Path  
 echo -**** 4. Change Directory Location (N/L)    :  Current Directory (%DL%)  
