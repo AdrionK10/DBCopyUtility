@@ -101,7 +101,11 @@ if not defined destinationFolder set "destinationFolder= C:\Users\%username%\Des
 echo ************************************************************************************
 echo ********* Custom Folder Created: %destinationFolder% *******************************
 echo ************************************************************************************
-set "newFolderPerExtension=y"
+set "newFolderPerExtension=n"
+if /I %newFolderPerExtension% == n mkdir "%destinationFolder%\Thrive"
+if /I %newFolderPerExtension% == n mkdir "%destinationFolder%\Thrive\sfdata"
+set "thriveFolder=%destinationFolder%\Thrive"
+set "sfFolder=%destinationFolder%\Thrive\sfdata"
 GOTO 0
 
 :BEG
@@ -121,8 +125,8 @@ goto INVALID
 
 :conf
 cls
-echo ************************************************************************************************************
-echo ************************************************************************************************************
+echo *****************************************************************
+echo *****************************************************************
 echo ***** Current Directory (%DL%)       
 echo ***** -------Sources----------------
 echo ***** %dirID%                       
@@ -161,29 +165,29 @@ goto 0
 :0 
 cls
 SET currentCkpt = 0
-echo **********************************************************************************
-echo *************** What File extension would you like to copy? **********************
-echo **********************************************************************************
-echo *******************  1 =  All *Below* Defined File Types        ******************
-echo *******************  2 = .CDX                                   ******************
-echo *******************  3 = .DSN (Data Source Name)                ******************
-echo *******************  4 = .DBC                                   ******************
-echo *******************  5 = .DBF                                   ******************
-echo *******************  6 = .DCT                                   ******************
-echo *******************  7 = .DCX                                   ******************
-echo *******************  8 = .FPT                                   ******************
-echo *******************  9 = .FXP                                   ******************
-echo ******************* 10 = .PRG                                   ******************
-echo ******************* 11 =  Microsoft Access Files                ******************
-echo ******************* 12 = .TXT                                   ******************
-echo ******************* 13 = .BAK                                   ******************
-echo ******************* 14 =  Sync Entire DB (Pulls All File Types) ******************
-echo **********************************************************************************
-echo **********************************************************************************
+echo *******************************************************************************
+echo ************ What File extension would you like to copy? **********************
+echo *******************************************************************************
+echo ****************  1 =  All *Below* Defined File Types        ******************
+echo ****************  2 = .CDX                                   ******************
+echo ****************  3 = .DSN (Data Source Name)                ******************
+echo ****************  4 = .DBC                                   ******************
+echo ****************  5 = .DBF                                   ******************
+echo ****************  6 = .DCT                                   ******************
+echo ****************  7 = .DCX                                   ******************
+echo ****************  8 = .FPT                                   ******************
+echo ****************  9 = .FXP                                   ******************
+echo **************** 10 = .PRG                                   ******************
+echo **************** 11 =  Microsoft Access Files                ******************
+echo **************** 12 = .TXT                                   ******************
+echo **************** 13 = .BAK                                   ******************
+echo **************** 14 =  Sync Entire DB (Pulls All File Types) ******************
+echo *******************************************************************************
+echo *******************************************************************************
 echo ** Current Directory (%DL%)       **************************** 
 echo ** FOLDER SPACE: %destinationFolder%  **************************** 
-echo ******************************************************************  
-echo ****************************************************************** 
+echo ****************************************************************  
+echo **************************************************************** 
 set /P INPUT="Extension Selection #: "                                   
 
 if /I %INPUT% == 1 GOTO 1
@@ -268,12 +272,12 @@ goto All
 
 :2
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.cdx"
-if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.cdx"
+if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.cdx
 Goto 2a
 :2a
 set "lastSEL=.CDX"
-robocopy %dirID% %destinationFolder% *.cdx
-robocopy %dirID2% %destinationFolder% *.cdx
+robocopy %dirID% %thriveFolder% *.cdx
+robocopy %dirID2% %sfFolder% *.cdx
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
 
@@ -283,8 +287,8 @@ if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\D
 goto 3a
 :3a
 set lastSEL = .DSN"
-robocopy %dirID%  %destinationFolder% *.dsn
-robocopy %dirID2% %destinationFolder% *.dsn
+robocopy %dirID%  %thriveFolder% *.dsn
+robocopy %dirID2% %sfFolder% *.dsn
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
 
@@ -294,8 +298,8 @@ if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\D
 goto 4a
 :4a
 set "lastSEL=.DBC"
-robocopy %dirID%  %destinationFolder% *.dbc
-robocopy %dirID2% %destinationFolder% *.dbc
+robocopy %dirID%  %thriveFolder% *.dbc
+robocopy %dirID2% %sfFolder% *.dbc
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
 
@@ -305,8 +309,8 @@ if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\D
 goto 5a
 :5a
 set "lastSEL=.DBF"
-robocopy %dirID%  %destinationFolder% *.dbf
-robocopy %dirID2% %destinationFolder% *.dbf
+robocopy %dirID%  %thriveFolder% *.dbf
+robocopy %dirID2% %sfFolder% *.dbf
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
 
@@ -316,8 +320,8 @@ if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\D
 goto 6a
 :6a
 set "lastSEL=.DCT"
-robocopy %dirID%  %destinationFolder% *.dct
-robocopy %dirID2% %destinationFolder% *.dct
+robocopy %dirID%  %thriveFolder% *.dct
+robocopy %dirID2% %sfFolder% *.dct
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
 
@@ -327,8 +331,8 @@ if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\D
 goto 7a
 :7a
 set "lastSEL=.DCX"
-robocopy %dirID%  %destinationFolder% *.dcx
-robocopy %dirID2% %destinationFolder% *.dcx
+robocopy %dirID%  %thriveFolder% *.dcx
+robocopy %dirID2% %sfFolder% *.dcx
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
 
@@ -338,8 +342,8 @@ if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\D
 goto 8a
 :8a
 set "lastSEL=.FPT"
-robocopy %dirID%  %destinationFolder% *.fpt
-robocopy %dirID2% %destinationFolder% *.fpt
+robocopy %dirID%  %thriveFolder% *.fpt
+robocopy %dirID2% %sfFolder% *.fpt
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
 
@@ -349,8 +353,8 @@ if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\D
 goto 9a
 :9a
 set "lastSEL=.FXP"
-robocopy %dirID%  %destinationFolder% *.fxp
-robocopy %dirID2% %destinationFolder% *.fxp
+robocopy %dirID%  %thriveFolder% *.fxp
+robocopy %dirID2% %sfFolder% *.fxp
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
 
@@ -360,8 +364,8 @@ if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\D
 goto 10a
 :10a
 set "lastSEL=.PRG"
-robocopy %dirID%  %destinationFolder% *.prg
-robocopy %dirID2% %destinationFolder% *.prg
+robocopy %dirID%  %thriveFolder% *.prg
+robocopy %dirID2% %sfFolder% *.prg
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
 
@@ -371,8 +375,8 @@ if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\D
 goto 11a
 :11a
 set "lastSEL=MICROSOFT ACCESS"
-robocopy %dirID% %destinationFolder% *.accdb *.mdb
-robocopy %dirID2% %destinationFolder% *.mdb *.accdb
+robocopy %dirID% %thriveFolder% *.accdb *.mdb
+robocopy %dirID2% %sfFolder% *.mdb *.accdb
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
 
@@ -382,8 +386,8 @@ if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\D
 goto 12a
 :12a
 set "lastSEL=.TXT"
-robocopy %dirID%  %destinationFolder% *.txt
-robocopy %dirID2% %destinationFolder% *.txt
+robocopy %dirID%  %thriveFolder% *.txt
+robocopy %dirID2% %sfFolder% *.txt
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
 
@@ -393,8 +397,8 @@ if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\D
 goto 13a
 :13a
 set "lastSEL=.BAK"
-robocopy %dirID%  %destinationFolder% *.bak
-robocopy %dirID2% %destinationFolder% *. bak
+robocopy %dirID%  %thriveFolder% *.bak
+robocopy %dirID2% %sfFolder% *. bak
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
 
@@ -420,62 +424,62 @@ goto INIT
 set "lastSEL=ALL"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.cdx"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.cdx"
-robocopy %dirID% %destinationFolder% *.cdx
-robocopy %dirID2% %destinationFolder% *.cdx
+robocopy %dirID% %thriveFolder% *.cdx
+robocopy %dirID2% %sfFolder% *.cdx
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.dsn"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.dsn"
-robocopy %dirID%  %destinationFolder% *.dsn
-robocopy %dirID2% %destinationFolder% *.dsn
+robocopy %dirID%  %thriveFolder% *.dsn
+robocopy %dirID2% %sfFolder% *.dsn
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.dbc"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.dbc"
-robocopy %dirID%  %destinationFolder% *.dbc
-robocopy %dirID2% %destinationFolder% *.dbc
+robocopy %dirID%  %thriveFolder% *.dbc
+robocopy %dirID2% %sfFolder% *.dbc
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.dbf"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.dbf"
-robocopy %dirID%  %destinationFolder% *.dbf
-robocopy %dirID2% %destinationFolder% *.dbf
+robocopy %dirID%  %thriveFolder% *.dbf
+robocopy %dirID2% %sfFolder% *.dbf
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.dct"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.dct"
-robocopy %dirID%  %destinationFolder% *.dct
-robocopy %dirID2% %destinationFolder% *.dct
+robocopy %dirID%  %thriveFolder% *.dct
+robocopy %dirID2% %sfFolder% *.dct
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.dcx"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.dcx"
-robocopy %dirID%  %destinationFolder% *.dcx
-robocopy %dirID2% %destinationFolder% *.dcx
+robocopy %dirID%  %thriveFolder% *.dcx
+robocopy %dirID2% %sfFolder% *.dcx
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.fpt"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.fpt"
-robocopy %dirID%  %destinationFolder% *.fpt
-robocopy %dirID2% %destinationFolder% *.fpt
+robocopy %dirID%  %thriveFolder% *.fpt
+robocopy %dirID2% %sfFolder% *.fpt
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.fxp"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.fxp"
-robocopy %dirID%  %destinationFolder% *.fxp
-robocopy %dirID2% %destinationFolder% *.fxp
+robocopy %dirID%  %thriveFolder% *.fxp
+robocopy %dirID2% %sfFolder% *.fxp
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.prg"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.prg"
-robocopy %dirID%  %destinationFolder% *.prg
-robocopy %dirID2% %destinationFolder% *.prg
+robocopy %dirID%  %thriveFolder% *.prg
+robocopy %dirID2% %sfFolder% *.prg
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\Microsoft-Access-Files"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\Microsoft-Access-Files"
-robocopy %dirID% %destinationFolder% *.accdb *.mdb
-robocopy %dirID2% %destinationFolder% *.mdb *.accdb
+robocopy %dirID% %thriveFolder% *.accdb *.mdb
+robocopy %dirID2% %sfFolder% *.mdb *.accdb
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.txt"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.txt"
-robocopy %dirID%  %destinationFolder% *.txt
-robocopy %dirID2% %destinationFolder% *.txt
+robocopy %dirID%  %thriveFolder% *.txt
+robocopy %dirID2% %sfFolder% *.txt
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 if /I %newFolderPerExtension% == y mkdir "%destinationFolder%\.bak"
 if /I %newFolderPerExtension% == y set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\.bak"
-robocopy %dirID%  %destinationFolder% *.bak
-robocopy %dirID2% %destinationFolder% *. bak
+robocopy %dirID%  %thriveFolder% *.bak
+robocopy %dirID2% %sfFolder% *. bak
 set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%\"
 Goto REP
