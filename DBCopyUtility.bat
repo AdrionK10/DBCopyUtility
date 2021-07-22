@@ -68,6 +68,9 @@ GOTO FOL
 :FOL
 cls
 SET currentCkpt = FOL
+
+echo ***************************************************
+echo ** Current Directory (%DL%) 
 echo ***************************************************
 echo ** Create Custom Folder Name? (Y/N) ***************
 echo ***************************************************
@@ -80,7 +83,6 @@ IF /I %FOLD% == n goto DFOL
 goto INVALID
 
 :DFOL
-cls
 SET currentCkpt = DFOL
 if not exist "C:\Users\%username%\Desktop\%rootid%\%id%" mkdir C:\Users\%username%\Desktop\%rootid%\%id%
 if not defined destinationFolder set "destinationFolder= C:\Users\%username%\Desktop\%rootid%\%id%"
@@ -91,7 +93,6 @@ set "newFolderPerExtension=y"
 GOTO 0
 
 :CFOL
-cls
 SET currentCkpt = CFOL
 set /p id="Enter Folder Name (No Spaces Please): "
 if not exist "C:\Users\%username%\Desktop\%rootid%\%id%" mkdir C:\Users\%username%\Desktop\%rootid%\%id%"
@@ -141,7 +142,7 @@ echo *****                                                                      
 echo ************************************************************************************************************
 set /P CON="Sync Directory? Y/N: "
 IF /I %CON% == y goto 14
-IF /I %CON% == n goto nfpx
+IF /I %CON% == n goto 0
 goto INVALID
 
 :nfpx
@@ -163,7 +164,7 @@ SET currentCkpt = 0
 echo **********************************************************************************
 echo *************** What File extension would you like to copy? **********************
 echo **********************************************************************************
-echo *******************  1 =  Sync Entire DB (Pulls All File Types) ******************
+echo *******************  1 =  All *Below* Defined File Types        ******************
 echo *******************  2 = .CDX                                   ******************
 echo *******************  3 = .DSN (Data Source Name)                ******************
 echo *******************  4 = .DBC                                   ******************
@@ -176,7 +177,7 @@ echo ******************* 10 = .PRG                                   ***********
 echo ******************* 11 =  Microsoft Access Files                ******************
 echo ******************* 12 = .TXT                                   ******************
 echo ******************* 13 = .BAK                                   ******************
-echo ******************* 14 =  All Above Defined Extensions          ******************
+echo ******************* 14 =  Sync Entire DB (Pulls All File Types) ******************
 echo **********************************************************************************
 echo **********************************************************************************
 echo ** Current Directory (%DL%)       **************************** 
@@ -185,7 +186,7 @@ echo ******************************************************************
 echo ****************************************************************** 
 set /P INPUT="Extension Selection #: "                                   
 
-if /I %INPUT% == 1 GOTO CONF
+if /I %INPUT% == 1 GOTO 1
 if /I %INPUT% == 2 GOTO 2
 if /I %INPUT% == 3 GOTO 3
 if /I %INPUT% == 4 GOTO 4
@@ -198,7 +199,7 @@ if /I %INPUT% == 10 GOTO 10
 if /I %INPUT% == 11 GOTO 11
 if /I %INPUT% == 12 GOTO 12
 if /I %INPUT% == 13 GOTO 13
-if /I %INPUT% == 14 GOTO 1
+if /I %INPUT% == 14 GOTO CONF
 goto INVALID
 
 :REP
