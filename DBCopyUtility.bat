@@ -1,7 +1,7 @@
 @echo off
 cls
 :INIT
-IF NOT DEFINED rootid SET "rootid=DBCopyUtility"
+IF NOT DEFINED rootid SET "rootid=DBCU-Files"
 IF NOT DEFINED id SET id=DB
 IF NOT DEFINED currentCkpt SET "currentCkpt=NOL"
 
